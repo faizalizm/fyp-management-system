@@ -88,7 +88,7 @@ https://templatemo.com/tm-573-eduwell
   <!-- ***** Main Banner Area Start ***** -->
   <section class="main-banner" id="top">
     <div class="container">
-      <div class="row">
+      <div class="row mt-5">
         <div class="col-lg-6 align-self-center">
           <div class="header-text">
             <h6>Supercharge your dreams</h6>
