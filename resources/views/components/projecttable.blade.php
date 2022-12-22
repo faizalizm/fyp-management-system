@@ -2,7 +2,7 @@
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>{{$title}}</h6>
+              <h6>{{$title}} ({{count($projectDisplay)}})</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -87,6 +87,8 @@
                         <span class="badge badge-sm bg-gradient-info">Extended
                         @elseif($display["project_status"] == 4)
                         <span class="badge badge-sm bg-gradient-secondary">Completed
+                        @elseif($display["project_status"] == 5)
+                        <span class="badge badge-sm bg-gradient-dark">Finished
                         @else
                         <span class="badge badge-sm bg-gradient-primary">New
                         @endif

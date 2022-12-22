@@ -12,8 +12,9 @@ Route::get('/projects/{project_id?}', [systemCtrl::class, 'showProject']);
 Route::get('/lecturers', [systemCtrl::class, 'showLecturer']);
 Route::get('/students/{student_id?}', [systemCtrl::class, 'showStudent']);
 Route::get('/profile', [systemCtrl::class, 'showProfile']);
+Route::POST('/search', [systemCtrl::class, 'showSearch']);
 
-// ***** Login Page *****
+// ***** Auth Page *****
 Route::get('/login', [systemCtrl::class, 'showSignIn']);
 Route::POST('/check', [systemCtrl::class, 'check']);
 Route::get('/logout', [systemCtrl::class, 'destroy']);

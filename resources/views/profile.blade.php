@@ -9,12 +9,12 @@
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
-  <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
+  <div class="position-absolute w-100 min-height-300 top-0">
     <span class="mask bg-primary opacity-6"></span>
   </div>
   <x-sidebar data="profile"/>
   <div class="main-content position-relative max-height-vh-100 h-100">
-    <!-- Navbar -->
+    {{-- <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg bg-transparent shadow-none position-absolute px-4 w-100 z-index-2 mt-n11">
       <div class="container-fluid py-1">
         <nav aria-label="breadcrumb">
@@ -26,7 +26,7 @@
         </nav>
       </div>
     </nav>
-    <!-- End Navbar -->
+    <!-- End Navbar --> --}}
     <div class="card shadow-lg mx-4 card-profile-bottom">
       <div class="card-body p-3">
         <div class="row gx-4">
@@ -89,7 +89,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Current</label>
-                    <input class="form-control" type="text" value="******">
+                    <input class="form-control" type="text" value="******" readonly>
                   </div>
                 </div>
               </div>

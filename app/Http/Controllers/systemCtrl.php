@@ -12,48 +12,11 @@ class systemCtrl extends Controller
 {
     // ***** CRUD functions *****
     public function createProject(Request $req){
-        $newProject = new project;
-        $newProject->project_title = $req->title;
-        $newProject->project_type = $req->type;
-        $newProject->project_duration = $req->duration;
-        $newProject->student_id = $req->student_id;
-        $newProject->sv_id = $req->sv_id;
-        $newProject->ex1_id = $req->ex1_id;
-        $newProject->ex2_id = $req->ex2_id;
-        
-        $newProject->save;
-
-        echo $req->title;
-        echo '<br/>';
-        echo $req->type;
-        echo '<br/>';
-        echo $req->duration;
-        echo '<br/>';
-        echo $req->student_id;
-        echo '<br/>';
-        echo $req->sv_id;
-        echo '<br/>';
-        echo $req->ex1_id;
-        echo '<br/>';
-        echo $req->ex2_id;
         DB::insert("INSERT INTO `projects` (`project_title`, `project_type`, `project_duration`,`student_id`, `sv_id`, `ex1_id`, `ex2_id`) VALUES (?, ?, ?, ?, ?, ?, ?)", [$req->title, $req->type, $req->duration, $req->student_id, $req->sv_id, $req->ex1_id, $req->ex2_id]);
         return redirect('projects');
     }
 
     public function editProject(Request $req){
-        echo $req->title;
-        echo '<br/>';
-        echo $req->type;
-        echo '<br/>';
-        echo $req->duration;
-        echo '<br/>';
-        echo $req->sv_id;
-        echo '<br/>';
-        echo $req->ex1_id;
-        echo '<br/>';
-        echo $req->ex2_id;
-        echo $req->svPriv;
-
         if($req->svPriv){
             project::where('project_id', '=', $req->project_id)->update(array(
                 'project_start' => $req->start,
@@ -89,16 +52,123 @@ class systemCtrl extends Controller
             $finished = project::where('project_status', '=', 5)->get()->count();
 
             $total = project::all()->count();
-            $development = project::where('project_type', '=', 41)->get()->count();
-            $research = project::where('project_type', '=', 2)->get()->count();
+            $development = project::where([
+                ['project_type', '=', 1],
+                ['project_status', '!=', 5],
+            ])->get()->count();
+            $research = project::where([
+                ['project_type', '=', 2],
+                ['project_status', '!=', 5],
+            ])->get()->count();
+
+            
+            $totalDevComp = project::where([
+                ['project_type', '=', 1],
+                ['project_status', '=', 4],
+                ['project_status', '!=', 5],
+            ])->get()->count();
+            
+            $totalResComp = project::where([
+                ['project_type', '=', 2],
+                ['project_status', '=', 4],
+                ['project_status', '!=', 5],
+            ])->get()->count();
+
+            $development == 0? $developmentPerc = 0 : $developmentPerc = $totalDevComp / $development * 100;
+            $research == 0? $researchPerc = 0 : $researchPerc = $totalResComp / $research * 100;
+
+            // Supervisee and Examinee calculation
+            $SVdevelopment = project::where([
+                ['project_type', '=', 1],
+                ['project_status', '!=', 5],
+                ['sv_id', '=', session()->get('lect_id')],
+            ])->get()->count();
+            $SVresearch = project::where([
+                ['project_type', '=', 2],
+                ['project_status', '!=', 5],
+                ['sv_id', '=', session()->get('lect_id')],
+            ])->get()->count();
+
+            $EXresearch = project::where([
+            ])
+            ->orWhere([
+                ['ex1_id', '=', session()->get('lect_id')],
+                ['ex2_id', '=', session()->get('lect_id')],
+            ])->get()->count();
+            $EXdevelopment = project::where([
+                ['project_type', '=', 1],
+                ['project_status', '!=', 5],
+                ['ex1_id', '=', session()->get('lect_id')],
+            ])
+            ->orWhere([
+                ['project_type', '=', 1],
+                ['project_status', '!=', 5],
+                ['ex2_id', '=', session()->get('lect_id')],
+            ])->get()->count();
+
+            $totalSVDevComp = project::where([
+                ['project_type', '=', 1],
+                ['project_status', '=', 4],
+                ['project_status', '!=', 5],
+                ['sv_id', '=', session()->get('lect_id')],
+            ])->get()->count();
+            $totalSVResComp = project::where([
+                ['project_type', '=', 2],
+                ['project_status', '=', 4],
+                ['project_status', '!=', 5],
+                ['sv_id', '=', session()->get('lect_id')],
+            ])->get()->count();
+            
+            $totalEXResComp = project::where([
+                ['project_type', '=', 2],
+                ['project_status', '=', 4],
+                ['project_status', '!=', 5],
+                ['ex1_id', '=', session()->get('lect_id')],
+            ])
+            ->orWhere([
+                ['project_type', '=', 2],
+                ['project_status', '=', 4],
+                ['project_status', '!=', 5],
+                ['ex2_id', '=', session()->get('lect_id')],
+            ])->get()->count();
+            $totalEXDevComp = project::where([
+                ['project_type', '=', 1],
+                ['project_status', '=', 4],
+                ['project_status', '!=', 5],
+            ])
+            ->orWhere([
+                ['ex1_id', '=', session()->get('lect_id')],
+                ['ex2_id', '=', session()->get('lect_id')],
+            ])->get()->count();
+
+            $SVdevelopment == 0? $SVdevelopmentPerc = 0 : $SVdevelopmentPerc = $totalSVDevComp / $SVdevelopment * 100;
+            $EXdevelopment == 0? $EXdevelopmentPerc = 0 : $EXdevelopmentPerc = $totalEXDevComp / $EXdevelopment * 100;
+
+            $SVresearch == 0? $SVresearchPerc = 0 : $SVresearchPerc = $totalSVResComp / $SVresearch * 100;
+            $EXresearch == 0? $EXresearchPerc = 0 : $EXresearchPerc = $totalEXResComp / $EXresearch * 100;
+                
             return view('dashboard', [
                 'onTrack' => $onTrack,
                 'delayed' => $delayed,
                 'extended' => $extended,
                 'completed' => $completed,
                 'finished' => $finished,
+                'total' => $total,
+                // all
                 'development' => $development,
-                'research' => $research
+                'research' => $research,
+                'developmentPerc' => $developmentPerc,
+                'researchPerc' => $researchPerc,
+                // SV
+                'SVdevelopment' => $SVdevelopment,
+                'SVresearch' => $SVresearch,
+                'SVdevelopmentPerc' => $SVdevelopmentPerc,
+                'SVresearchPerc' => $SVresearchPerc,
+                // EX
+                'EXdevelopment' => $EXdevelopment,
+                'EXresearch' => $EXresearch,
+                'EXdevelopmentPerc' => $EXdevelopmentPerc,
+                'EXresearchPerc' => $EXresearchPerc
             ]);
         }
     }
@@ -117,15 +187,58 @@ class systemCtrl extends Controller
             return view('profile', []);
         }
     }
+    
+    public function showSearch(Request $req){
+        // if($req->session()->get('lect_id') != "")
+        //     return redirect('/login');
+        // else if($req->session()->get('lect_id') == "")
+        //     return redirect('/dashboard');
+        // else if($req->session()->get('lect_coordinator')){
+            $keyword = $req->keyword;
+            $lect = lecturer::all();
+            $stud = student::all();
+
+            $project_query = project::query();
+            $columns = ['project_title'];
+            foreach($columns as $column){
+                $projectList = $project_query->orWhere($column, 'LIKE', '%' . $keyword . '%');
+            }
+
+            $lecturer_query = lecturer::query();
+            $columns = ['lect_name', 'lect_email'];
+            foreach($columns as $column){
+                $lecturerList = $lecturer_query->orWhere($column, 'LIKE', '%' . $keyword . '%');
+            }
+            
+            $student_query = student::query();
+            $columns = ['student_name', 'student_email'];
+            foreach($columns as $column){
+                $studentList = $student_query->orWhere($column, 'LIKE', '%' . $keyword . '%');
+            }
+
+            $projectOnLect = project::select('sv_id', 'ex1_id', 'ex2_id');
+
+            return view('search', [
+                'lect' => $lect,
+                'stud' => $stud,
+                'projectDisplay' => $projectList->get(),
+                'lectDisplay' => $lecturerList->get(),
+                'studDisplay' => $studentList->get(),
+                'projectOnLect' => $projectOnLect,
+            ]);
+        // }
+    }
 
     public function showLecturer(Request $req){
         if($req->session()->get('lect_id') == "")
             return redirect('/login');
         else if($req->session()->get('lect_coordinator') == 1){
             $lecturerList = lecturer::paginate(30);
+            $projectList = project::select('sv_id', 'ex1_id', 'ex2_id');
 
             return view('lecturerList', [
                 'lectDisplay' => $lecturerList,
+                'projectDisplay' => $projectList,
             ]);
         }else{
             return redirect('/dashboard');
@@ -179,7 +292,7 @@ class systemCtrl extends Controller
                 );
             }
             else{
-                $projectList = project::paginate(10);
+                $projectList = project::paginate(5);
                 $superviseeList = project::where([
                     ['sv_id', '=',  $req->session()->get('lect_id')],
                     ['project_status', '!=', 5],

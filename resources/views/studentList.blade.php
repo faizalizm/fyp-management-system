@@ -22,18 +22,7 @@
           </ol>
           <h6 class="font-weight-bolder text-white mb-0">Students</h6>
         </nav>
-        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-          </div>
-          <ul class="navbar-nav  justify-content-end">
-            <li class="nav-item d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">{{session('lect_name')}}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
+        <x-lectbar data="{{session('lect_name')}}"/>
       </div>
     </nav>
     <!-- End Navbar -->
@@ -42,7 +31,7 @@
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Students table</h6>
+              <h6>Students table ({{count($studDisplay)}})</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -51,8 +40,6 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Student</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-secondary opacity-7"></th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
@@ -81,12 +68,6 @@
                       </td>
                       <td>
                         <p class="text-xs font-weight-bold mb-0">{{$display["student_id"]}}</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">24/12/08</span>
                       </td>
                       <td class="align-middle">
                         <a href="{{'students/'.$display['student_id']}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View Student">
