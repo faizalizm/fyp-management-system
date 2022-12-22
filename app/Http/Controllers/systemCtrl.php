@@ -17,9 +17,26 @@ class systemCtrl extends Controller
     }
 
     public function editProject(Request $req){
-        if($req->svPriv){
+        if($req->svPriv && session()->get('lect_coordinator')){
+            project::where('project_id', '=', $req->project_id)->update(array(
+                'project_title' => $req->title,
+                'project_type' => $req->type,
+                'project_duration' => $req->duration,
+                'project_desc' => $req->desc,
+                'project_start' => $req->start,
+                'project_start' => $req->start,
+                'project_end' => $req->end,
+                'project_progress' => $req->progress,
+                'sv_id' => $req->sv_id,
+                'ex1_id' => $req->ex1_id,
+                'ex2_id' => $req->ex2_id,
+                'student_id' => $req->student_id
+            ));
+        }
+        else if($req->svPriv){
             project::where('project_id', '=', $req->project_id)->update(array(
                 'project_start' => $req->start,
+                'project_desc' => $req->desc,
                 'project_end' => $req->end,
                 'project_progress' => $req->progress,
                 'project_status' => $req->status

@@ -141,6 +141,14 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Description</label>
+                      <input class="form-control" type="text" name="desc" value="{{$project->project_desc? $project->project_desc: ""}}" {{$svPriv? "" : "readonly"}}>
+                    </div>
+                  </div>
+                </div>  
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
                       <label for="example-text-input" class="form-control-label">Start Date</label>
                       <input class="form-control" type="date" name="start" value="{{$project->project_start? $project->project_start : ""}}" {{$svPriv? "" : "readonly"}}>
                     </div>
