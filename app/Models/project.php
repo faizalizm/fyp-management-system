@@ -11,4 +11,5 @@ class project extends Model
     // public $primaryKey = 'project_id';
     // public $keyType = 'string';
     // private $timestamp = false;
+    public $timestamps = false;
 }

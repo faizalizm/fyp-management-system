@@ -2533,6 +2533,11 @@ progress {
     color: var(--bs-table-hover-color);
 }
 
+.rowhover:hover {
+    --bs-table-accent-bg: #f5f5f7;
+    cursor: pointer;
+}
+
 .table-primary {
     --bs-table-color: #000;
     --bs-table-bg: #dfe3fa;

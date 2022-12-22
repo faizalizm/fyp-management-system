@@ -2,29 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\systemCtrl;
-
 // ***** Home *****
-Route::get('/', function () {
-    return view('home');
-});
 
 
 // ***** Pages *****
-Route::get('/login', [systemCtrl::class, 'login']);
+Route::get('/', [systemCtrl::class, 'showHome']);
 Route::get('/dashboard', [systemCtrl::class, 'showDashboard']);
-Route::get('/projects', [systemCtrl::class, 'showProject']);
+Route::get('/projects/{project_id?}', [systemCtrl::class, 'showProject']);
 Route::get('/lecturers', [systemCtrl::class, 'showLecturer']);
-Route::get('/students', [systemCtrl::class, 'showStudent']);
+Route::get('/students/{student_id?}', [systemCtrl::class, 'showStudent']);
 Route::get('/profile', [systemCtrl::class, 'showProfile']);
 
-
+// ***** Login Page *****
 Route::get('/login', [systemCtrl::class, 'showSignIn']);
-Route::get('/logout', [systemCtrl::class, 'showSignOut']);
-
-// ***** CRUD Page *****
-Route::get('/editPage/{id}', [systemCtrl::class, 'showEditProject']);
+Route::POST('/check', [systemCtrl::class, 'check']);
+Route::get('/logout', [systemCtrl::class, 'destroy']);
 
 // ***** CRUD Operation *****
 Route::POST('/addProject', [systemCtrl::class, 'createProject']);
-Route::get('/delProject/{project_id}', [systemCtrl::class, 'delProject']);
+Route::get('/projects/delProject/{project_id}', [systemCtrl::class, 'delProject']);
 Route::POST('/editProject',[systemCtrl::class, 'editProject']);
