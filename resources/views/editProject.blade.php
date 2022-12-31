@@ -199,10 +199,16 @@
                     <a href="{{'delProject/'.$project->project_id}}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
                   </div>
                   @endif
+                  @if(session('lect_coordinator') && $svPriv)
                   <div class="col-md-0">
                     <button class="btn btn-secondary btn-sm ms-auto" type="reset">Reset</button>
                     <button class="btn btn-primary btn-sm ms-auto" type="submit">Confirm Edit</button>
                   </div>
+                  @else
+                  <div class="col-md-0">
+                    <button class="btn btn-primary btn-sm ms-auto" type="submit">Back</button>
+                  </div>
+                  @endif
                 </div>
               </div>
             </form>
