@@ -72,7 +72,7 @@
                           name="student_id"
                         >
                           <option selected>-- Choose --</option>
-                          @foreach($studentDisplay as $display)
+                          @foreach($studentAvail as $display)
                             <option value={{$display['student_id']}}>{{$display['student_name']}}</option>
                           @endforeach
                         </select>

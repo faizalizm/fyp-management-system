@@ -17,33 +17,45 @@ class systemCtrl extends Controller
     }
 
     public function editProject(Request $req){
-        if($req->svPriv && session()->get('lect_coordinator')){
+        if(session()->get('lect_coordinator') && $req->svPriv){
             project::where('project_id', '=', $req->project_id)->update(array(
+                'student_id' => $req->student_id,
                 'project_title' => $req->title,
-                'project_type' => $req->type,
                 'project_duration' => $req->duration,
-                'project_desc' => $req->desc,
-                'project_start' => $req->start,
-                'project_start' => $req->start,
-                'project_end' => $req->end,
-                'project_progress' => $req->progress,
+                'project_type' => $req->type,
                 'sv_id' => $req->sv_id,
                 'ex1_id' => $req->ex1_id,
                 'ex2_id' => $req->ex2_id,
-                'student_id' => $req->student_id
+                'project_desc' => $req->desc,
+                'project_start' => $req->start,
+                'project_end' => $req->end,
+                'project_progress' => $req->progress,
+                'project_status' => $req->status,
+            ));
+        }
+        else if(session()->get('lect_coordinator') ){
+            project::where('project_id', '=', $req->project_id)->update(array(
+                'student_id' => $req->student_id,
+                'project_title' => $req->title,
+                'project_duration' => $req->duration,
+                'project_type' => $req->type,
+                'sv_id' => $req->sv_id,
+                'ex1_id' => $req->ex1_id,
+                'ex2_id' => $req->ex2_id,
             ));
         }
         else if($req->svPriv){
             project::where('project_id', '=', $req->project_id)->update(array(
-                'project_start' => $req->start,
                 'project_desc' => $req->desc,
+                'project_start' => $req->start,
                 'project_end' => $req->end,
                 'project_progress' => $req->progress,
                 'project_status' => $req->status
             ));
-        }else{
-            DB::update("UPDATE projects set project_title=?, project_type=?, project_duration=?, sv_id=?, ex1_id=?, ex2_id=? WHERE project_id=?", [$req->title, $req->type, $req->duration, $req->sv_id, $req->ex1_id, $req->ex2_id, $req->project_id]);
         }
+        // else{
+        //     DB::update("UPDATE projects set project_title=?, project_type=?, project_duration=?, sv_id=?, ex1_id=?, ex2_id=? WHERE project_id=?", [$req->title, $req->type, $req->duration, $req->sv_id, $req->ex1_id, $req->ex2_id, $req->project_id]);
+        // }
 
         return redirect('projects');
     }
@@ -250,7 +262,7 @@ class systemCtrl extends Controller
         if($req->session()->get('lect_id') == "")
             return redirect('/login');
         else if($req->session()->get('lect_coordinator') == 1){
-            $lecturerList = lecturer::paginate(30);
+            $lecturerList = lecturer::all();
             $projectList = project::select('sv_id', 'ex1_id', 'ex2_id');
 
             return view('lecturerList', [
@@ -309,7 +321,7 @@ class systemCtrl extends Controller
                 );
             }
             else{
-                $projectList = project::paginate(5);
+                $projectList = project::paginate(10);
                 $superviseeList = project::where([
                     ['sv_id', '=',  $req->session()->get('lect_id')],
                     ['project_status', '!=', 5],
@@ -324,12 +336,20 @@ class systemCtrl extends Controller
                 $lecturerList = lecturer::all();
                 $studentList = student::all();
                 
+                // $user = User::where('company_id', '=', 1)->select('id')->get()->toArray();
+                // $otherCompany = User::whereNotIn('id', $user)->get();
+
+                // $studentAvail = student::join('projects', 'students.student_id', '=', 'projects.student_id')->where()->get();
+                $studentAvail = project::select('student_id')->get()->toArray();
+                $studentAvail = student::whereNotIn('student_id', $studentAvail)->get();
+                
                 return view('projectList', [
-                    'projectDisplay' => $projectList,
+                    'projectDisplay' => $projectList,   
                     'superviseeDisplay' => $superviseeList,
                     'examineeDisplay' => $examineeList,
                     'lecturerDisplay' => $lecturerList,
                     'studentDisplay' => $studentList,
+                    'studentAvail' => $studentAvail,
                 ]);
             }
         }

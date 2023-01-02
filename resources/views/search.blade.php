@@ -144,8 +144,6 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Student</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-secondary opacity-7"></th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
@@ -174,12 +172,6 @@
                       </td>
                       <td>
                         <p class="text-xs font-weight-bold mb-0">{{$display["student_id"]}}</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">24/12/08</span>
                       </td>
                       <td class="align-middle">
                         <a href="{{'students/'.$display['student_id']}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View Student">

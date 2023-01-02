@@ -67,7 +67,7 @@
                         onChange="document.getElementById('rangeval').innerText = document.getElementById('duration').value + ' months'"
                         {{session('lect_coordinator')? "" : "disabled"}}
                         >
-                      <label id="rangeval">4 months</label>
+                      <label id="rangeval">{{$project->project_duration}} months</label>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -199,7 +199,7 @@
                     <a href="{{'delProject/'.$project->project_id}}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
                   </div>
                   @endif
-                  @if(session('lect_coordinator') && $svPriv)
+                  @if(session('lect_coordinator') || $svPriv)
                   <div class="col-md-0">
                     <button class="btn btn-secondary btn-sm ms-auto" type="reset">Reset</button>
                     <button class="btn btn-primary btn-sm ms-auto" type="submit">Confirm Edit</button>
