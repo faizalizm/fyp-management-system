@@ -325,14 +325,14 @@ class systemCtrl extends Controller
                 $superviseeList = project::where([
                     ['sv_id', '=',  $req->session()->get('lect_id')],
                     ['project_status', '!=', 5],
-                ])->get();
+                ])->paginate(3);
                 $examineeList = project::where([
                     ['ex1_id', '=',  $req->session()->get('lect_id')],
                     ['project_status', '!=', 5],
                 ])->orWhere([
                     ['ex2_id', $req->session()->get('lect_id')],
                     ['project_status', '!=', 5],
-                ])->get();
+                ])->paginate(3);
                 $lecturerList = lecturer::all();
                 $studentList = student::all();
                 

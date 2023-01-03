@@ -109,7 +109,7 @@
                       </td>
                     </tr>
                     @endforeach
-                    @if($title == 'All Projects')
+                    {{-- @if($title == 'All Projects') --}}
                     @if($projectDisplay->hasPages())
                     <tr>
                       <td colspan="8">
@@ -146,7 +146,7 @@
                       </td>
                     </tr>
                     @endif
-                    @endif
+                    {{-- @endif --}}
                   </tbody>
                 </table>
               </div>
